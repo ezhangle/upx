@@ -64,7 +64,7 @@ make/scan-build)
     ;;
 esac
 
-# upx-testsuite
+# very fist version of the upx-testsuite
 if test -x $PWD/upx.out; then
 file upx.out || true
 upx="$PWD/upx.out"
@@ -80,6 +80,7 @@ for f in packed/*/upx-3.91*; do
     $upx_391 -d $f -o v391.tmp
     $upx     -d $f -o v392.tmp
     sha256sum v391.tmp v392.tmp
+    cmp -s v391.tmp v392.tmp
     rm -f *.tmp
 done
 fi
