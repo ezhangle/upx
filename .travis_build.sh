@@ -108,6 +108,7 @@ size upx.out
 
 # very first version of the upx-testsuite
 if test -x $PWD/upx.out; then
+checksum=sha1sum # sha256sum does not exist on travis-osx
 file upx.out || true
 upx="$PWD/upx.out"
 if test "X$TRAVIS_OS_NAME" = "Xlinux"; then
@@ -125,16 +126,16 @@ for f in packed/*/upx-3.91*; do
     if test "X$TRAVIS_OS_NAME" = "Xlinux"; then
         $upx_391 -d $f -o v391.tmp
         $upx     -d $f -o v392.tmp
-        sha1sum v391.tmp v392.tmp
+        $checksum v391.tmp v392.tmp
         cmp -s v391.tmp v392.tmp
         $upx_391 --lzma --fake-stub-version=3.92 --fake-stub-year=2016 v391.tmp -o v391_packed.tmp
         $upx     --lzma                                                v392.tmp -o v392_packed.tmp
-        sha1sum v391_packed.tmp v392_packed.tmp
+        $checksum v391_packed.tmp v392_packed.tmp
     else
         $upx     -d $f -o v392.tmp
-        sha1sum v392.tmp
+        $checksum v392.tmp
         $upx     --lzma                                                v392.tmp -o v392_packed.tmp
-        sha1sum v392_packed.tmp
+        $checksum v392_packed.tmp
     fi
     $upx -d v392_packed.tmp v392_decompressed.tmp
     cmp -s v392.tmp v392_decompressed.tmp
