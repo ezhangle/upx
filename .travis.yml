@@ -63,7 +63,13 @@ matrix:
     - os: linux
       compiler: gcc-6
       env: C=gcc-6-m32 B=release
-      addons: { apt: { sources: ubuntu-toolchain-r-test }, packages: { g++-6-multilib, zlib1g-dev:i386 } }
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6-multilib
+            - zlib1g-dev:i386
     - os: linux
       compiler: gcc-6
       env: C=gcc-6-m64 B=release
