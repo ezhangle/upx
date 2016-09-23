@@ -33,9 +33,10 @@ echo "UPX_UCLDIR='$UPX_UCLDIR'"
 echo "$CC --version"; $CC --version
 echo "$CXX --version"; $CXX --version
 
+set -x
+
 # build UCL
 cd /
-set -x
 cd "$UPX_UCLDIR"
 ./configure --enable-static --disable-shared
 make
@@ -44,7 +45,6 @@ zsh --version || true
 
 # build UPX
 cd /
-set -x
 mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR"
 f="EXTRA_CPPFLAGS=-DUCL_NO_ASM"
@@ -70,7 +70,7 @@ make/scan-build)
     ;;
 esac
 
-# very fist version of the upx-testsuite
+# very first version of the upx-testsuite
 if test -x $PWD/upx.out; then
 file upx.out || true
 upx="$PWD/upx.out"
@@ -82,11 +82,10 @@ $upx -l packed/*/upx-3.91*
 $upx --file-info packed/*/upx-3.91*
 for f in packed/*/upx-3.91*; do
     echo "===== $f"
-    rm -f *.tmp
     $upx_391 -d $f -o v391.tmp
     $upx     -d $f -o v392.tmp
     sha256sum v391.tmp v392.tmp
     cmp -s v391.tmp v392.tmp
-    rm -f *.tmp
+    rm *.tmp
 done
 fi
