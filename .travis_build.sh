@@ -47,10 +47,12 @@ if test "X$ALLOW_FAIL" = "X1"; then set +e; fi
 case $BUILD_METHOD in
 debug)
     $make USE_DEBUG=1 ;;
+debug+sanitize)
+    $make USE_DEBUG=1 USE_SANITIZE=1 ;;
 release)
     $make ;;
 sanitize)
-    $make USE_DEBUG=1 USE_SANITIZE=1 ;;
+    $make USE_SANITIZE=1 ;;
 scan-build)
     if test "$CC" = "clang"; then
         scan-build $make

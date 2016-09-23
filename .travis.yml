@@ -18,9 +18,6 @@ matrix:
       compiler: gcc
       env: C=gcc A=-m64
     - os: linux
-      compiler: gcc
-      env: C=gcc A=-m64 B=sanitize
-    - os: linux
       compiler: gcc-5
       env: C=gcc-5 A=-m64
       addons:
@@ -39,6 +36,15 @@ matrix:
           packages:
             - g++-5-multilib
             - zlib1g-dev:i386
+    - os: linux
+      compiler: gcc-5
+      env: C=gcc-5 A=-m64 B=sanitize
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
     - os: osx
       compiler: clang
       env: C=clang A=-m64 ALLOW_FAIL=1
