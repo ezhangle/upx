@@ -147,9 +147,10 @@ for f in packed/*/upx-3.91*; do
     # canonicalized so that further compression+decompression runs
     # should yield identical results
     if ! cmp -s v392.tmp v392_decompressed.tmp; then
+        # UPX 3.91 and 3.92 differ; run one more compression+decompression
         ls -l v392.tmp v392_decompressed.tmp
         echo "UPX-WARNING: $f"
-        $upx -3 v392_decompressed.tmp -o v392_packed_2.tmp
+        $upx v392_decompressed.tmp -o v392_packed_2.tmp
         $upx -d v392_packed_2.tmp -o v392_decompressed_2.tmp
         if ! cmp -s v392_decompressed.tmp v392_decompressed_2.tmp; then
             ls -l v392_decompressed.tmp v392_decompressed_2.tmp
