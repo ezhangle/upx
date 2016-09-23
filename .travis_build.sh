@@ -86,3 +86,5 @@ for f in packed/*/upx-3.91*; do
     rm *.tmp
 done
 fi
+
+exit 0
