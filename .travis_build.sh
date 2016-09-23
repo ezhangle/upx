@@ -57,6 +57,7 @@ xargs -0r perl -n -e '
     if (m,\t,) {
        if ($ARGV =~ m,(^|/)\.gitmodules$,) { }
        elsif ($ARGV =~ m,(^|/)make(file|vars),i) { }
+       elsif ($ARGV =~ m,/tmp/.*\.(disasm|dump)$/,) { }
        elsif ($ARGV =~ m,\.S$,) { }
        else { print "ERROR: hard TAB detected $ARGV: $_"; exit(1); }
     }
