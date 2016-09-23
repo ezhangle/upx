@@ -83,6 +83,9 @@ for f in packed/*/upx-3.91*; do
     $upx     -d $f -o v392.tmp
     sha256sum v391.tmp v392.tmp
     cmp -s v391.tmp v392.tmp
+    $upx_391 --fake-version-year=2016 --fake-stub-version="3.91" v391.tmp -o v391_packed.tmp
+    $upx                                                         v392.tmp -o v392_packed.tmp
+    sha256sum v391_packed.tmp v392_packed.tmp
     rm *.tmp
 done
 fi
