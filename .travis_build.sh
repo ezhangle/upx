@@ -143,6 +143,9 @@ for f in packed/*/upx-3.91*; do
         $checksum v392_packed.tmp
     fi
     $upx -d v392_packed.tmp -o v392_decompressed.tmp
+    # after the first compression+decompression step the exe should be
+    # canonicalized so that further compression+decompression runs
+    # should yield identical results
     if ! cmp -s v392.tmp v392_decompressed.tmp; then
         ls -l v392.tmp v392_decompressed.tmp
         echo "UPX-WARNING: $f"
