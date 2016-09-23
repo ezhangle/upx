@@ -111,7 +111,10 @@ exit_code=0
 
 # very first version of the upx-testsuite
 if test -x $PWD/upx.out; then
-checksum=md5sum # sha256sum does not exist on travis-osx
+checksum=sha256sum
+if test "X$TRAVIS_OS_NAME" = "Xosx"; then
+    checksum=true
+fi
 upx="$PWD/upx.out"
 if test "X$TRAVIS_OS_NAME" = "Xlinux"; then
 cp "$TRAVIS_BUILD_DIR/deps/upx-testsuite/files/packed/amd64-linux.elf/upx-3.91" upx391.out
@@ -142,8 +145,14 @@ for f in packed/*/upx-3.91*; do
     $upx -d v392_packed.tmp -o v392_decompressed.tmp
     if ! cmp -s v392.tmp v392_decompressed.tmp; then
         ls -l v392.tmp v392_decompressed.tmp
-        echo "ERROR: $f"
-        exit_code=1
+        echo "UPX-WARNING: $f"
+        upx -3 v392_decompressed.tmp -o v392_packed_2.tmp
+        upx -d v392_packed_2.tmp -o v392_decompressed_2.tmp
+        if ! cmp -s v392_decompressed.tmp v392_decompressed_2.tmp; then
+            ls -l v392_decompressed.tmp v392_decompressed_2.tmp
+            echo "UPX-ERROR: $f"
+            exit_code=1
+        fi
     fi
     rm *.tmp
 done
