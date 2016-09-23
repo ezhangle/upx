@@ -14,8 +14,8 @@ case $C in
     gcc-m64) CC="gcc -m64"; CXX="g++ -m64" ;;
     gcc-5-m32) CC="gcc-5 -m32"; CXX="g++-5 -m32" ;;
     gcc-5-m64) CC="gcc-5 -m64"; CXX="g++-5 -m64" ;;
-    gcc-6-m32) CC="gcc-6 -m32"; CXX="g++-6 -m32" ;;
-    gcc-6-m64) CC="gcc-6 -m64"; CXX="g++-6 -m64" ;;
+    gcc-6-m32) CC="gcc-6 -m32 -std=gnu90"; CXX="g++-6 -m32" ;;
+    gcc-6-m64) CC="gcc-6 -m64 -std=gnu90"; CXX="g++-6 -m64" ;;
 esac
 export CC CXX
 
