@@ -146,8 +146,8 @@ for f in packed/*/upx-3.91*; do
     if ! cmp -s v392.tmp v392_decompressed.tmp; then
         ls -l v392.tmp v392_decompressed.tmp
         echo "UPX-WARNING: $f"
-        upx -3 v392_decompressed.tmp -o v392_packed_2.tmp
-        upx -d v392_packed_2.tmp -o v392_decompressed_2.tmp
+        $upx -3 v392_decompressed.tmp -o v392_packed_2.tmp
+        $upx -d v392_packed_2.tmp -o v392_decompressed_2.tmp
         if ! cmp -s v392_decompressed.tmp v392_decompressed_2.tmp; then
             ls -l v392_decompressed.tmp v392_decompressed_2.tmp
             echo "UPX-ERROR: $f"
