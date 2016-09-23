@@ -62,12 +62,12 @@ BUILD_DIR="$TRAVIS_BUILD_DIR/build"
 mkdir -p "$BUILD_DIR"
 
 # build UCL
-cd /; cd "$UPX_UCLDIR"
+cd /; cd "$UPX_UCLDIR" || exit 1
 ./configure --enable-static --disable-shared
 make
 
 # build UPX
-cd /; cd "$BUILD_DIR"
+cd /; cd "$BUILD_DIR" || exit 1
 f="EXTRA_CPPFLAGS=-DUCL_NO_ASM"
 make="make -f $TRAVIS_BUILD_DIR/src/Makefile $f"
 if test "X$ALLOW_FAIL" = "X1"; then
@@ -105,7 +105,7 @@ upx="$PWD/upx.out"
 cp "$TRAVIS_BUILD_DIR/deps/upx-testsuite/files/packed/amd64-linux.elf/upx-3.91" upx391.out
 upx_391="$PWD/upx391.out"
 $upx --help
-cd /; cd "$TRAVIS_BUILD_DIR/deps/upx-testsuite/files"
+cd /; cd "$TRAVIS_BUILD_DIR/deps/upx-testsuite/files" || exit 1
 $upx -l packed/*/upx-3.91*
 $upx --file-info packed/*/upx-3.91*
 for f in packed/*/upx-3.91*; do
