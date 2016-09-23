@@ -18,6 +18,9 @@ matrix:
       compiler: gcc
       env: C=gcc A=-m64
     - os: linux
+      compiler: gcc
+      env: C=gcc A=-m64 B=sanitize
+    - os: linux
       compiler: gcc-5
       env: C=gcc-5 A=-m64
       addons:

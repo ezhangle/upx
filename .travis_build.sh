@@ -2,8 +2,7 @@
 ## vim:set ts=4 sw=4 et:
 set -e; set -o pipefail
 
-if test "X$B" = "X"; then B=make/release; fi
-if test "X$B" = "Xdebug"; then B=make/debug; fi
+if test "X$B" = "X"; then B=release; fi
 BUILD_METHOD="$B"
 
 if test "X$C" = "Xclang"; then
@@ -46,13 +45,13 @@ f="EXTRA_CPPFLAGS=-DUCL_NO_ASM"
 make="make -f $TRAVIS_BUILD_DIR/src/Makefile $f"
 if test "X$ALLOW_FAIL" = "X1"; then set +e; fi
 case $BUILD_METHOD in
-make/debug)
-    $make USE_DEBUG=1
-    ;;
-make/release)
-    $make
-    ;;
-make/scan-build)
+debug)
+    $make USE_DEBUG=1 ;;
+release)
+    $make ;;
+sanitize)
+    $make USE_DEBUG=1 USE_SANITIZE=1 ;;
+scan-build)
     if test "$CC" = "clang"; then
         scan-build $make
     else
@@ -81,8 +80,8 @@ for f in packed/*/upx-3.91*; do
     $upx     -d $f -o v392.tmp
     sha256sum v391.tmp v392.tmp
     cmp -s v391.tmp v392.tmp
-    $upx_391 --fake-stub-version=3.92 --fake-stub-year=2016 v391.tmp -o v391_packed.tmp
-    $upx                                                    v392.tmp -o v392_packed.tmp
+    $upx_391 --lzma --fake-stub-version=3.92 --fake-stub-year=2016 v391.tmp -o v391_packed.tmp
+    $upx     --lzma                                                v392.tmp -o v392_packed.tmp
     sha256sum v391_packed.tmp v392_packed.tmp
     rm *.tmp
 done
