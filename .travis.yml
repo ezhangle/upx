@@ -10,13 +10,24 @@ matrix:
   include:
     - os: linux
       compiler: clang
+      env: C=clang A=-m32 B=debug
+      addons:
+        apt:
+          packages:
+            - zlib1g-dev:i386
+    - os: linux
+      compiler: clang
       env: C=clang A=-m64 B=debug
     - os: linux
       compiler: clang
-      env: C=clang A=-m64 B=release
+      env: C=clang A=-m32 B=release
+      addons:
+        apt:
+          packages:
+            - zlib1g-dev:i386
     - os: linux
-      compiler: gcc
-      env: C=gcc A=-m64 B=release
+      compiler: clang
+      env: C=clang A=-m64 B=release
     - os: linux
       compiler: gcc
       env: C=gcc A=-m32 B=release
@@ -25,14 +36,8 @@ matrix:
           packages:
             - zlib1g-dev:i386
     - os: linux
-      compiler: gcc-5
-      env: C=gcc-5 A=-m64 B=release
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-5
+      compiler: gcc
+      env: C=gcc A=-m64 B=release
     - os: linux
       compiler: gcc-5
       env: C=gcc-5 A=-m32 B=release
@@ -43,6 +48,15 @@ matrix:
           packages:
             - g++-5-multilib
             - zlib1g-dev:i386
+    - os: linux
+      compiler: gcc-5
+      env: C=gcc-5 A=-m64 B=release
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
     - os: linux
       compiler: gcc-5
       env: C=gcc-5 A=-m64 B=sanitize
