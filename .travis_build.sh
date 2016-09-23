@@ -36,7 +36,7 @@ echo "$CXX --version"; $CXX --version
 cd /
 set -x
 cd "$UPX_UCLDIR"
-./configure --enable-static --disable-shared --disasm-asm
+./configure --enable-static --disable-shared
 make
 
 zsh --version || true
