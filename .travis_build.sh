@@ -36,26 +36,30 @@ echo "$CXX --version"; $CXX --version
 cd /
 set -x
 cd "$UPX_UCLDIR"
-./configure --enable-static --disable-shared --enable-asm
+./configure --enable-static --disable-shared --disasm-asm
 make
+
+zsh --version || true
 
 # build UPX
 cd /
 set -x
 mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR"
+f="-DEXTRA_CPPFLAGS=-DUCL_NO_ASM"
+make="make -f $TRAVIS_BUILD_DIR/src/Makefile $f"
 case $BUILD_METHOD_AND_BUILD_TYPE in
 make/debug)
-    make -f "$TRAVIS_BUILD_DIR/src/Makefile" USE_DEBUG=1
+    $make USE_DEBUG=1
     ;;
 make/release)
-    make -f "$TRAVIS_BUILD_DIR/src/Makefile"
+    $make
     ;;
 make/scan-build)
     if test "$CC" = "clang"; then
-        scan-build make -f "$TRAVIS_BUILD_DIR/src/Makefile"
+        scan-build $make
     else
-        make -f "$TRAVIS_BUILD_DIR/src/Makefile" USE_SANITIZE=1
+        $make USE_SANITIZE=1
     fi
     ;;
 *)
