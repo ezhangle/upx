@@ -12,6 +12,8 @@ case $C in
     gcc-m64) CC="gcc -m64"; CXX="g++ -m64" ;;
     gcc-5-m32) CC="gcc-5 -m32"; CXX="g++-5 -m32" ;;
     gcc-5-m64) CC="gcc-5 -m64"; CXX="g++-5 -m64" ;;
+    gcc-6-m32) CC="gcc-6 -m32"; CXX="g++-6 -m32" ;;
+    gcc-6-m64) CC="gcc-6 -m64"; CXX="g++-6 -m64" ;;
 esac
 export CC CXX
 
@@ -31,6 +33,25 @@ echo "UPX_UCLDIR='$UPX_UCLDIR'"
 
 echo "$CC --version"; $CC --version
 echo "$CXX --version"; $CXX --version
+
+# whitespace
+echo "Checking source code for whitespace violations..."
+find . \
+    -type d -name .git  -prune -o \
+    -type f -iname '*.exe' -prune -o \
+    -type f -iname '*.pdf' -prune -o \
+    -type f -print0 | LC_ALL=C sort -z | \
+xargs -0r perl -n -e '
+    if (m,[\r\x1a],) { print "ERROR: DOS EOL detected $ARGV: $_"; exit(1); }
+    if (m,([ \t]+)$,) {
+        # allow exactly two trailing spaces for GitHub flavoured Markdown in .md files
+        if ($1 ne "  " || $ARGV !~ m,\.md$,) {
+            print "ERROR: trailing whitespace detected $ARGV: $_"; exit(1);
+        }
+    }
+    if (m,\t, && $ARGV !~ m,^make(file|vars),i) { print "ERROR: hard TAB detected $ARGV: $_"; exit(1); }
+' || exit 1
+echo "  Done."
 
 set -x
 BUILD_DIR="$TRAVIS_BUILD_DIR/build"
