@@ -2,7 +2,6 @@
 ## vim:set ts=4 sw=4 et:
 set -e; set -o pipefail
 
-
 if test "X$B" = "X"; then B=make/release; fi
 if test "X$B" = "Xdebug"; then B=make/debug; fi
 BUILD_METHOD="$B"
@@ -33,17 +32,16 @@ echo "$CC --version"; $CC --version
 echo "$CXX --version"; $CXX --version
 
 set -x
+BUILD_DIR="$TRAVIS_BUILD_DIR/build"
+mkdir -p "$BUILD_DIR"
 
 # build UCL
-cd /
-cd "$UPX_UCLDIR"
+cd /; cd "$UPX_UCLDIR"
 ./configure --enable-static --disable-shared
 make
 
 # build UPX
-cd /
-mkdir -p "$BUILD_DIR"
-cd "$BUILD_DIR"
+cd /; cd "$BUILD_DIR"
 f="EXTRA_CPPFLAGS=-DUCL_NO_ASM"
 make="make -f $TRAVIS_BUILD_DIR/src/Makefile $f"
 if test "X$ALLOW_FAIL" = "X1"; then set +e; fi
@@ -74,7 +72,7 @@ upx="$PWD/upx.out"
 cp "$TRAVIS_BUILD_DIR/deps/upx-testsuite/files/packed/amd64-linux.elf/upx-3.91" upx391.out
 upx_391="$PWD/upx391.out"
 $upx --help
-cd "$TRAVIS_BUILD_DIR/deps/upx-testsuite/files"
+cd /; cd "$TRAVIS_BUILD_DIR/deps/upx-testsuite/files"
 $upx -l packed/*/upx-3.91*
 $upx --file-info packed/*/upx-3.91*
 for f in packed/*/upx-3.91*; do

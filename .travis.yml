@@ -47,7 +47,5 @@ install:
   - wget --no-check-certificate -q -O - https://download.freenas.org/distfiles/ucl-1.03.tar.gz | tar -xz
   - git clone https://github.com/upx/upx-testsuite
 
-before_script:
-  - export BUILD_DIR="$TRAVIS_BUILD_DIR/build"
 script:
   - bash "$TRAVIS_BUILD_DIR/.travis_build.sh"
