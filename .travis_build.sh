@@ -4,6 +4,7 @@ set -e; set -o pipefail
 
 
 if test "X$B" == "X"; then B=make/release; fi
+if test "X$B" == "debug"; then B=make/debug; fi
 BUILD_METHOD_AND_BUILD_TYPE="$B"
 
 if test "X$C" = "Xclang"; then
