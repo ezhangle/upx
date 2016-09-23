@@ -2,7 +2,6 @@
 ## vim:set ts=4 sw=4 et:
 set -e; set -o pipefail
 
-env
 cd /; cd "$TRAVIS_BUILD_DIR" || exit 1
 
 if test "X$B" = "X"; then B=release; fi
@@ -59,7 +58,7 @@ xargs -0r perl -n -e '
        if ($ARGV =~ m,(^|/)\.gitmodules$,) { }
        elsif ($ARGV =~ m,(^|/)make(file|vars),i) { }
        elsif ($ARGV =~ m,\.S$,) { }
-       else print "ERROR: hard TAB detected $ARGV: $_"; exit(1); }
+       else { print "ERROR: hard TAB detected $ARGV: $_"; exit(1); }
     }
 ' || exit 1
 echo "  Done."
