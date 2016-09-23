@@ -2,3 +2,5 @@
     path = src/lzma-sdk
     url = https://github.com/upx/upx-lzma-sdk.git
     branch = master
+
+# vim:set ts=4 sw=4 et:
