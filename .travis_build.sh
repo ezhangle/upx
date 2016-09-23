@@ -55,7 +55,7 @@ xargs -0r perl -n -e '
             print "ERROR: trailing whitespace detected $ARGV: $_"; exit(1);
         }
     }
-    if (m,\t, && $ARGV !~ m,^make(file|vars),i) { print "ERROR: hard TAB detected $ARGV: $_"; exit(1); }
+    if (m,\t, && $ARGV !~ m,(^|/)make(file|vars),i) { print "ERROR: hard TAB detected $ARGV: $_"; exit(1); }
 ' || exit 1
 echo "  Done."
 fi
