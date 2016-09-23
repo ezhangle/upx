@@ -137,7 +137,7 @@ for f in packed/*/upx-3.91*; do
         $upx     --lzma                                                v392.tmp -o v392_packed.tmp
         $checksum v392_packed.tmp
     fi
-    $upx -d v392_packed.tmp v392_decompressed.tmp
+    $upx -d v392_packed.tmp -o v392_decompressed.tmp
     cmp -s v392.tmp v392_decompressed.tmp
     rm *.tmp
 done

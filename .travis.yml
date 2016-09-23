@@ -90,7 +90,7 @@ matrix:
             - g++-6
     - os: osx
       compiler: clang
-      env: C=clang-m64 B=debug ALLOW_FAIL=1
+      env: C=clang-m64 B=debug
       #osx_image: xcode7
 
 install:
