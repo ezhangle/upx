@@ -38,6 +38,7 @@ echo "$CC --version"; $CC --version
 echo "$CXX --version"; $CXX --version
 
 # whitespace
+if test "X$TRAVIS_OS_NAME" = "Xlinux"; then
 echo "Checking source code for whitespace violations..."
 find . \
     -type d -name '.git' -prune -o \
@@ -57,6 +58,7 @@ xargs -0r perl -n -e '
     if (m,\t, && $ARGV !~ m,^make(file|vars),i) { print "ERROR: hard TAB detected $ARGV: $_"; exit(1); }
 ' || exit 1
 echo "  Done."
+fi
 
 set -x
 BUILD_DIR="$TRAVIS_BUILD_DIR/build"
@@ -103,21 +105,34 @@ size upx.out
 if test -x $PWD/upx.out; then
 file upx.out || true
 upx="$PWD/upx.out"
+if test "X$TRAVIS_OS_NAME" = "Xlinux"; then
 cp "$TRAVIS_BUILD_DIR/deps/upx-testsuite/files/packed/amd64-linux.elf/upx-3.91" upx391.out
 upx_391="$PWD/upx391.out"
+else
+upx_391=
+fi
 $upx --help
 cd /; cd "$TRAVIS_BUILD_DIR/deps/upx-testsuite/files" || exit 1
 $upx -l packed/*/upx-3.91*
 $upx --file-info packed/*/upx-3.91*
 for f in packed/*/upx-3.91*; do
     echo "===== $f"
-    $upx_391 -d $f -o v391.tmp
-    $upx     -d $f -o v392.tmp
-    sha256sum v391.tmp v392.tmp
-    cmp -s v391.tmp v392.tmp
-    $upx_391 --lzma --fake-stub-version=3.92 --fake-stub-year=2016 v391.tmp -o v391_packed.tmp
-    $upx     --lzma                                                v392.tmp -o v392_packed.tmp
-    sha256sum v391_packed.tmp v392_packed.tmp
+    if test "X$TRAVIS_OS_NAME" = "Xlinux"; then
+        $upx_391 -d $f -o v391.tmp
+        $upx     -d $f -o v392.tmp
+        sha1sum v391.tmp v392.tmp
+        cmp -s v391.tmp v392.tmp
+        $upx_391 --lzma --fake-stub-version=3.92 --fake-stub-year=2016 v391.tmp -o v391_packed.tmp
+        $upx     --lzma                                                v392.tmp -o v392_packed.tmp
+        sha1sum v391_packed.tmp v392_packed.tmp
+    else
+        $upx     -d $f -o v392.tmp
+        sha1sum v392.tmp
+        $upx     --lzma                                                v392.tmp -o v392_packed.tmp
+        sha1sum v392_packed.tmp
+    fi
+    $upx -d v392_packed.tmp v392_decompressed.tmp
+    cmp -s v392.tmp v392_decompressed.tmp
     rm *.tmp
 done
 fi
