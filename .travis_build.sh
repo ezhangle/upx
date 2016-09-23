@@ -107,6 +107,8 @@ ls -l upx.out
 size upx.out
 file upx.out
 
+exit_code=0
+
 # very first version of the upx-testsuite
 if test -x $PWD/upx.out; then
 checksum=md5sum # sha256sum does not exist on travis-osx
@@ -138,11 +140,15 @@ for f in packed/*/upx-3.91*; do
         $checksum v392_packed.tmp
     fi
     $upx -d v392_packed.tmp -o v392_decompressed.tmp
-    cmp -s v392.tmp v392_decompressed.tmp
+    if ! cmp -s v392.tmp v392_decompressed.tmp; then
+        ls -l v392.tmp v392_decompressed.tmp
+        echo "ERROR: $f"
+        exit_code=1
+    fi
     rm *.tmp
 done
 fi
 
-exit 0
+exit $exit_code
 
 # vim:set ts=4 sw=4 et:
