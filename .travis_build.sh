@@ -5,7 +5,7 @@ set -e; set -o pipefail
 
 if test "X$B" = "X"; then B=make/release; fi
 if test "X$B" = "Xdebug"; then B=make/debug; fi
-BUILD_METHOD_AND_BUILD_TYPE="$B"
+BUILD_METHOD="$B"
 
 if test "X$C" = "Xclang"; then
   export CC="clang $A" CXX="clang++ $A"
@@ -17,8 +17,7 @@ fi
 
 export UPX_UCLDIR="$TRAVIS_BUILD_DIR/deps/ucl-1.03"
 
-
-echo "BUILD_METHOD_AND_BUILD_TYPE='$BUILD_METHOD_AND_BUILD_TYPE'"
+echo "BUILD_METHOD='$BUILD_METHOD'"
 echo "CC='$CC'"
 echo "CXX='$CXX'"
 echo "CPPFLAGS='$CPPFLAGS'"
@@ -48,7 +47,7 @@ cd "$BUILD_DIR"
 f="EXTRA_CPPFLAGS=-DUCL_NO_ASM"
 make="make -f $TRAVIS_BUILD_DIR/src/Makefile $f"
 if test "X$ALLOW_FAIL" = "X1"; then set +e; fi
-case $BUILD_METHOD_AND_BUILD_TYPE in
+case $BUILD_METHOD in
 make/debug)
     $make USE_DEBUG=1
     ;;
@@ -63,7 +62,7 @@ make/scan-build)
     fi
     ;;
 *)
-    echo "ERROR: invalid build '$BUILD_METHOD_AND_BUILD_TYPE'"
+    echo "ERROR: invalid build '$BUILD_METHOD'"
     exit 1
     ;;
 esac
