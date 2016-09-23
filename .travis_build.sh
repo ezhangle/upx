@@ -49,7 +49,7 @@ mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR"
 f="EXTRA_CPPFLAGS=-DUCL_NO_ASM"
 make="make -f $TRAVIS_BUILD_DIR/src/Makefile $f"
-if "X$ALLOW_FAIL" = "X1"; then set +e; fi
+if test "X$ALLOW_FAIL" = "X1"; then set +e; fi
 case $BUILD_METHOD_AND_BUILD_TYPE in
 make/debug)
     $make USE_DEBUG=1
