@@ -46,7 +46,7 @@ cd /
 set -x
 mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR"
-f="-DEXTRA_CPPFLAGS=-DUCL_NO_ASM"
+f="EXTRA_CPPFLAGS=-DUCL_NO_ASM"
 make="make -f $TRAVIS_BUILD_DIR/src/Makefile $f"
 case $BUILD_METHOD_AND_BUILD_TYPE in
 make/debug)
