@@ -37,8 +37,8 @@ echo "$CXX --version"; $CXX --version
 # whitespace
 echo "Checking source code for whitespace violations..."
 find . \
-    -type d -name .git  -prune -o \
-    -type d -name ucl-1.03 -prune -o \
+    -type d -name '.git' -prune -o \
+    -type d -name 'deps' -prune -o \
     -type f -iname '*.bat' -prune -o \
     -type f -iname '*.exe' -prune -o \
     -type f -iname '*.pdf' -prune -o \
