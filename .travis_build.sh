@@ -5,13 +5,15 @@ set -e; set -o pipefail
 if test "X$B" = "X"; then B=release; fi
 BUILD_METHOD="$B"
 
-if test "X$C" = "Xclang"; then
-  export CC="clang $A" CXX="clang++ $A"
-elif test "X$C" = "Xgcc"; then
-  export CC="gcc $A" CXX="g++ $A"
-elif test "X$C" = "Xgcc-5"; then
-  export CC="gcc-5 $A" CXX="g++-5 $A"
-fi
+case $C in
+    clang-m32) CC="clang -m32"; CXX="clang++ -m32" ;;
+    clang-m64) CC="clang -m64"; CXX="clang++ -m64" ;;
+    gcc-m32) CC="gcc -m32"; CXX="g++ -m32" ;;
+    gcc-m64) CC="gcc -m64"; CXX="g++ -m64" ;;
+    gcc-5-m32) CC="gcc-5 -m32"; CXX="g++-5 -m32" ;;
+    gcc-5-m64) CC="gcc-5 -m64"; CXX="g++-5 -m64" ;;
+esac
+export CC CXX
 
 export UPX_UCLDIR="$TRAVIS_BUILD_DIR/deps/ucl-1.03"
 
@@ -43,7 +45,10 @@ make
 cd /; cd "$BUILD_DIR"
 f="EXTRA_CPPFLAGS=-DUCL_NO_ASM"
 make="make -f $TRAVIS_BUILD_DIR/src/Makefile $f"
-if test "X$ALLOW_FAIL" = "X1"; then set +e; fi
+if test "X$ALLOW_FAIL" = "X1"; then
+    echo "ALLOW_FAIL=$ALLOW_FAIL"
+    set +e
+fi
 case $BUILD_METHOD in
 debug)
     $make USE_DEBUG=1 ;;
