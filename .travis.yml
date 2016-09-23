@@ -61,14 +61,27 @@ matrix:
           packages:
             - g++-5
     - os: linux
-      compiler: gcc-5
-      env: C=gcc-5-m64 B=sanitize
+      compiler: gcc-6
+      env: C=gcc-6-m32 B=release
+      addons: { apt: { sources: ubuntu-toolchain-r-test } packages: { g++-6-multilib zlib1g-dev:i386 } }
+    - os: linux
+      compiler: gcc-6
+      env: C=gcc-6-m64 B=release
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-5
+            - g++-6
+    - os: linux
+      compiler: gcc-6
+      env: C=gcc-6-m64 B=sanitize
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
     - os: osx
       compiler: clang
       env: C=clang-m64 B=debug ALLOW_FAIL=1
@@ -82,3 +95,5 @@ install:
 
 script:
   - bash "$TRAVIS_BUILD_DIR/.travis_build.sh"
+
+# vim:set ts=2 sw=2 et:
