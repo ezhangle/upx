@@ -41,8 +41,6 @@ cd "$UPX_UCLDIR"
 ./configure --enable-static --disable-shared
 make
 
-zsh --version || true
-
 # build UPX
 cd /
 mkdir -p "$BUILD_DIR"
