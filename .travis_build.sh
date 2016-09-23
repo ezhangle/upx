@@ -38,6 +38,8 @@ echo "$CXX --version"; $CXX --version
 echo "Checking source code for whitespace violations..."
 find . \
     -type d -name .git  -prune -o \
+    -type d -name ucl-1.03 -prune -o \
+    -type f -iname '*.bat' -prune -o \
     -type f -iname '*.exe' -prune -o \
     -type f -iname '*.pdf' -prune -o \
     -type f -print0 | LC_ALL=C sort -z | \
@@ -91,6 +93,8 @@ scan-build)
     exit 1
     ;;
 esac
+ls -l upx.out
+size upx.out
 
 # very first version of the upx-testsuite
 if test -x $PWD/upx.out; then
