@@ -105,11 +105,11 @@ scan-build)
 esac
 ls -l upx.out
 size upx.out
+file upx.out
 
 # very first version of the upx-testsuite
 if test -x $PWD/upx.out; then
-checksum=sha1sum # sha256sum does not exist on travis-osx
-file upx.out || true
+checksum=md5sum # sha256sum does not exist on travis-osx
 upx="$PWD/upx.out"
 if test "X$TRAVIS_OS_NAME" = "Xlinux"; then
 cp "$TRAVIS_BUILD_DIR/deps/upx-testsuite/files/packed/amd64-linux.elf/upx-3.91" upx391.out
