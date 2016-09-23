@@ -63,7 +63,7 @@ xargs -0r perl -n -e '
     }
 ' || exit 1
 echo "  Done."
-fi
+fi # linux
 
 set -x
 BUILD_DIR="$TRAVIS_BUILD_DIR/build"
