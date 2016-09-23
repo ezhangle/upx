@@ -29,6 +29,9 @@ echo "BUILD_DIR='$BUILD_DIR'"
 echo "UPX_UCLDIR='$UPX_UCLDIR'"
 #env | LC_ALL=C sort
 
+echo "$CC --version"; $CC --version
+echo "$CXX --version"; $CXX --version
+
 # build UCL
 cd /
 set -x
